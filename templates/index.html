@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+
+{% block title %}Home page{% endblock %}
+
+{% block content %}
+ <h1>Listing</h1>
+<form action="#" method="post" >
+    <label for="lname">Name:</label>
+    <p><input type="text" id="lname" name="lname"></p>
+
+    <label for="smry">Summary:</label>
+    <p><input type="text" id="smry" name="smry"></p>
+
+    <label for="space">Space:</label>
+    <p><input type="text" id="space" name="space"></p>
+
+    <label for="dsc">Description:</label>
+    <p><input type="text" id="dsc" name="dsc"></p>
+
+    <label for="neb_ov">Neighborhood Overview:</label>
+    <p><input type="text" id="neb_ov" name="neb_ov"></p>
+
+    <label for="notes">Notes:</label>
+    <p><input type="text" id="notes" name="notes"></p>
+
+    <label for="transit">Transit:</label>
+    <p><input type="text" id="transit" name="transit"></p>
+
+     <label for="access">Access:</label>
+    <p><input type="text" id="access" name="access"></p>
+
+    <label for="property_type">Property type:</label>
+    <p><input type="text" id="property_type" name="property_type"></p>
+
+    <label for="room_type">Room type:</label>
+    <p><input type="text" id="room_type" name="room_type"></p>
+
+    <label for="bed_type">Bed type:</label>
+    <p><input type="text" id="bed_type" name="bed_type"></p>
+
+    <label for="min_nights">Minimum Nights:</label>
+    <p><input type="text" id="min_nights" name="min_nights"></p>
+
+    <label for="max_nights">Maximum Nights:</label>
+    <p><input type="text" id="max_nights" name="max_nights"></p>
+
+     <label for="accommodates">Accommodates:</label>
+    <p><input type="text" id="accommodates" name="accommodates"></p>
+
+    <label for="bedroom">Bedrooms:</label>
+    <p><input type="text" id="bedroom" name="bedroom"></p>
+
+    <label for="beds">Beds:</label>
+    <p><input type="text" id="beds" name="beds"></p>
+
+    <label for="bathrooms">Bathrooms:</label>
+    <p><input type="text" id="bathrooms" name="bathrooms"></p>
+
+     <label for="price">Price:</label>
+    <p><input type="text" id="price" name="price"></p>
+
+    <label for="weekly_price">Weekly Price:</label>
+    <p><input type="text" id="weekly_price" name="weekly_price"></p>
+
+    <label for="monthly_price">Monthly Price:</label>
+    <p><input type="text" id="monthly_price" name="monthly_price"></p>
+
+    <label for="sec_deposite">Security Deposit:</label>
+    <p><input type="text" id="sec_deposite" name="sec_deposite"></p>
+
+    <label for="cln_fee">Cleaning Fee:</label>
+    <p><input type="text" id="cln_fee" name="cln_fee"></p>
+
+    <label for="extra_ppl">Extra People:</label>
+    <p><input type="text" id="extra_ppl" name="extra_ppl"></p>
+
+    <p>Address:</p>
+    <label for="street">Street:</label>
+    <p><input type="text" id="street" name="street"></p>
+
+    <label for="country">Country:</label>
+    <p><input type="text" id="country" name="country"></p>
+
+      <p><input type="submit" value="submit" /> </p>
+</form>
+{% endblock %}
+
+
+
+
+
+<!--
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home page</title>
+</head>
+<body>
+    <h1>Home Page!</h1>
+    {% for x in content %}
+        <p>{{x}}</p>
+        {% if x == "tim" %}
+        <p>its tim</p>
+        {% else %}
+        <p>its not tim</p>
+        {% endif %}
+    {% endfor %}
+    <p>{{r}}</p>
+</body>
+</html>
+-->
