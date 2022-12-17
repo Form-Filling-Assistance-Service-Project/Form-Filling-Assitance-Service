@@ -20,36 +20,38 @@ app.permanent_session_lifetime = timedelta(minutes=5)
 def home():
     data = {}
     if request.method == "POST":
-        data['Name'] = request.form['lname']
-        data['Summary'] = request.form['smry']
-        data['Space'] = request.form['space']
-        data['Description'] = request.form['dsc']
-        data['Neighborhood Overview'] = request.form['neb_ov']
-        data['Notes'] = request.form['notes']
-        data['Transit'] = request.form['transit']
-        data['Access'] = request.form['access']
-        data['Property type'] = request.form['property_type']
-        data['Room type'] = request.form['room_type']
-        data['Bed type'] = request.form['bed_type']
-        data['Minimum Nights'] = request.form['min_nights']
-        data['Maximum Nights'] = request.form['max_nights']
-        data['Accommodates'] = request.form['accommodates']
-        data['Bedrooms'] = request.form['bedroom']
-        data['Beds'] = request.form['beds']
-        data['Bathrooms'] = request.form['bathrooms']
-        data['Price'] = request.form['price']
-        data['Weekly Price'] = request.form['weekly_price']
-        data['Monthly Price'] = request.form['monthly_price']
-        data['Security Deposit'] = request.form['sec_deposite']
-        data['Cleaning Fee'] = request.form['cln_fee']
-        data['Extra People'] = request.form['extra_ppl']
-        data['Street'] = request.form['street']
-        data['Country'] = request.form['country']
+        data['name'] = request.form['lname']
+        data['summary'] = request.form['smry']
+        data['space'] = request.form['space']
+        data['description'] = request.form['dsc']
+        data['neighborhood Overview'] = request.form['neb_ov']
+        data['notes'] = request.form['notes']
+        data['transit'] = request.form['transit']
+        data['access'] = request.form['access']
+        data['property type'] = request.form['property_type']
+        data['room type'] = request.form['room_type']
+        data['bed type'] = request.form['bed_type']
+        data['minimum Nights'] = request.form['min_nights']
+        data['maximum Nights'] = request.form['max_nights']
+        data['accommodates'] = request.form['accommodates']
+        data['bedrooms'] = request.form['bedroom']
+        data['beds'] = request.form['beds']
+        data['bathrooms'] = request.form['bathrooms']
+        data['price'] = request.form['price']
+        data['weekly Price'] = request.form['weekly_price']
+        data['monthly Price'] = request.form['monthly_price']
+        data['security Deposit'] = request.form['sec_deposite']
+        data['cleaning Fee'] = request.form['cln_fee']
+        data['extra People'] = request.form['extra_ppl']
+        data['street'] = request.form['street']
+        data['country'] = request.form['country']
 
         collection.insert_one(data)
+ #   for field,value in data.items():
+ #       print(field,value)
+        result = collection.find_one({"name":"ron"})
+        print(result)
 
-    for field in data:
-        print(field)
 #func will get the name of the html file
     return render_template("index.html")
  #   return render_template("index.html", content="Testing")
