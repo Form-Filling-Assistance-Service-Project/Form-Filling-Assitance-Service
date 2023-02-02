@@ -1,6 +1,5 @@
 import formLogic.fieldStatistics as stat
 import json
-from langdetect import detect
 # def parse_form(form,collection,filled_fields) :
 
     # fields = list(collection[0].keys())

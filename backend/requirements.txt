@@ -6,12 +6,10 @@ importlib-metadata==4.6.0
 itsdangerous==2.0.1
 Jinja2==3.0.1
 joblib==1.2.0
-langdetect==1.0.9
 MarkupSafe==2.0.1
-multi-rake==0.0.2
+multi-rake==0.0.1
 nltk==3.8.1
 numpy==1.24.1
-pycld2==0.41
 pymongo==3.11.4
 pyrsistent==0.19.3
 python-decouple==3.4
