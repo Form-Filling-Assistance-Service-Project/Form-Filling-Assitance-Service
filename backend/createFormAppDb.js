@@ -227,11 +227,11 @@ var airbnb_listings = {
         },
         {
             field_name:"minimum_nights",
-            field_type:"string"
+            field_type:"int"
         },
         {
             field_name:"maximum_nights",
-            field_type:"string"
+            field_type:"int"
         },
         {
             field_name:"cancellation_policy",

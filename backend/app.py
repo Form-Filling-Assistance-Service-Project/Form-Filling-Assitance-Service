@@ -24,5 +24,5 @@ app.register_blueprint(form)
 # Configure all env variables for the app
 register_env_variables()
 
-#if __name__ =='__main__':
-#    app.run(debug = True)
+if __name__ =='__main__':
+    app.run(debug = True)

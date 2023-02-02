@@ -6,12 +6,15 @@ from multi_rake import Rake
 
 def get_dist(collection, type):
     match type:
-        case "string_set" | "string_multi_set" | "boolean":
+        case "string_set" | "boolean":
             return desc_field(collection)
+        case  "string_mult_set":
+            values=[]
+            for i in collection:
+                values.extend(i)
+            return desc_field(values)
         case "string":
-            #collection = list(map(len,collection))
             return word_freq(collection)
-            #return cont_field(collection)
         case "int":
             return cont_field(collection)
         case "int_list":
@@ -31,8 +34,7 @@ def get_dist(collection, type):
 def desc_field(collection):
     # default 10 bins, no range
     hist = Counter(collection)
-    total = sum(hist.values())
-    return  {key: value / total for key, value in hist.items()}
+    return  {key: value/len(collection) for key, value in hist.items()}
 
 
 def cont_field(collection):
