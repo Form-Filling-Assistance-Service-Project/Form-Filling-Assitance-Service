@@ -1,0 +1,5 @@
+** copy collection
+db.collection.aggregate([{$out:"collection_copy"}])
+
+** remove field from collection
+db.collection.updateMany({},{$unset:{"field_name":""}})
