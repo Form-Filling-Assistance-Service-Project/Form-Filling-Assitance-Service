@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Select from 'react-select'
+import Select from "react-select";
 import axios from "axios";
 
 
@@ -35,11 +35,12 @@ export default function Listings(){
     const [inputs, setInputs] = useState({})
 
     const handleInputChange= (event)=> {
-      const value = event.target.value;
       const name = event.target.name;
-      console.log(name);
+      const value = event.target.value;
 
       setInputs(values=>({...values, [name]:value}))
+
+      console.log(name);
     }
 
     const handleSubmit= (event)=>{
@@ -56,7 +57,8 @@ export default function Listings(){
               type="text"
               id="name"
               name="name"
-              onChange={handleInputChange}/>
+              onBlur={handleInputChange}
+              />
           <br />
           <label htmlFor="description">
             Description:</label>
@@ -64,7 +66,7 @@ export default function Listings(){
               type="text"
               id="description"
               name="description"
-              onChange={handleInputChange}/>
+              onBlur={handleInputChange}/>
           <br />
           <label htmlFor="neighborhood_overview">
             Neighborhood Overview:</label>
@@ -72,7 +74,7 @@ export default function Listings(){
               type="text"
               id="neighborhood_overview"
               name="neighborhood_overview"
-              onChange={handleInputChange}/>
+              onBlur={handleInputChange}/>
           <br />
           <label htmlFor="transit">
             Transit:</label>
@@ -80,36 +82,52 @@ export default function Listings(){
               type="text"
               id="transit"
               name="transit"
-              onChange={handleInputChange}/>
+              onBlur={handleInputChange}/>
           <br />
           <label htmlFor="property_type">
             Property Type:</label>
-          <select id="property_type" name="property_type" onChange={handleInputChange}>
+          <select id="property_type" name="property_type" onBlur={handleInputChange}>
             {property_options.map((property_options) => (
               <option name="property_type" value={property_options.label}>{property_options.label}</option>
             ))}</select>
+
+
           <br />
+          <Select options={bed_options}
+          id="bed_type"
+          onChange={(option)=>handleInputChange({"target":{"name":"bed_type","value":option.label}})}
+          />
+          <br />
+          <Select options={amenities_options}
+          isMulti
+          getOptionValue={(option)=>{return option.label}}
+          id="amenities"
+          isSearchable={true}
+          onChange={(option)=>handleInputChange({"target":{"name":"amenities","value":[option.map(x=>x.label)]}})}
+          />
+          <br />
+
           <label htmlFor="room_type">
             Room Type:</label>
-          <select id="room_type" name="room_type" onChange={handleInputChange}>
+          <select id="room_type" name="room_type" onBlur={handleInputChange}>
             {room_options.map((room_options) => (
               <option name="room_type" value={room_options.label}>{room_options.label}</option>
             ))}</select>
           <br />
           <label htmlFor="bed_type">
             Bed Type:</label>
-          <select id="bed_type" name="bed_type" onChange={handleInputChange}>
+          <select id="bed_type" name="bed_type" onBlur={handleInputChange}>
             {bed_options.map((bed_options) => (
               <option name="bed_type" value={bed_options.label}>{bed_options.label}</option>
             ))}</select>
-          <br /> 
+          <br />
           <label htmlFor="minimum_nights">
             Minimum nights:</label>
           <input
               type= "int"
               id="minimum_nights"
               name="minimum_nights"
-              onChange={handleInputChange}/>
+              onBlur={handleInputChange}/>
           <br />
           <label htmlFor="maximum_nights">
             Maximum nights:</label>
@@ -117,11 +135,11 @@ export default function Listings(){
               type= "int"
               id="maximum_nights"
               name="maximum_nights"
-              onChange={handleInputChange}/>
+              onBlur={handleInputChange}/>
           <br />
           <label htmlFor="cancellation_policy">
             Cancellation policy:</label>
-          <select id="cancellation_policy" name="cancellation_policy" onChange={handleInputChange}>
+          <select id="cancellation_policy" name="cancellation_policy" onBlur={handleInputChange}>
             {cancelation_options.map((cancelation_options) => (
               <option name="cancellation_policy" value={cancelation_options.label}>{cancelation_options.label}</option>
             ))}</select>
@@ -132,7 +150,7 @@ export default function Listings(){
               type= "int"
               id="accommodates"
               name="accommodates"
-              onChange={handleInputChange}/>
+              onBlur={handleInputChange}/>
           <br />
           <label htmlFor="bedrooms">
             Bedrooms:</label>
@@ -140,7 +158,7 @@ export default function Listings(){
               type= "int"
               id="bedrooms"
               name="bedrooms"
-              onChange={handleInputChange}/>
+              onBlur={handleInputChange}/>
           <br />
           <label htmlFor="Beds">
             Beds:</label>
@@ -148,7 +166,7 @@ export default function Listings(){
               type= "int"
               id="Beds"
               name="Beds"
-              onChange={handleInputChange}/>
+              onBlur={handleInputChange}/>
           <br />
           <label htmlFor="bathrooms">
             Bathrooms:</label>
@@ -156,11 +174,11 @@ export default function Listings(){
               type= "float"
               id="bathrooms"
               name="bathrooms"
-              onChange={handleInputChange}/>
+              onBlur={handleInputChange}/>
           <br />
           <label htmlFor="amenities">
            Amenities:</label>
-          <select id="amenities" name="amenities" onChange={handleInputChange} multiple>
+          <select id="amenities" name="amenities" onBlur={handleInputChange} multiple>
             {amenities_options.map((amenities_options) => (
               <option name="amenities" value={amenities_options.label}>{amenities_options.label}</option>
             ))}</select>
@@ -171,7 +189,7 @@ export default function Listings(){
               type= "float"
               id="price"
               name="price"
-              onChange={handleInputChange}/>
+              onBlur={handleInputChange}/>
           <br />
           <label htmlFor="weekly_price">
           Weekly price:</label>
@@ -179,7 +197,7 @@ export default function Listings(){
               type= "float"
               id="weekly_price"
               name="weekly_price"
-              onChange={handleInputChange}/>
+              onBlur={handleInputChange}/>
           <br />
           <label htmlFor="monthly_price">
            Monthly price:</label>
@@ -187,7 +205,7 @@ export default function Listings(){
               type= "float"
               id="monthly_price"
               name="monthly_price"
-              onChange={handleInputChange}/>
+              onBlur={handleInputChange}/>
           <br />
           <label htmlFor="cleaning_fee">
            Cleaning fee:</label>
@@ -195,7 +213,7 @@ export default function Listings(){
               type= "float"
               id="cleaning_fee"
               name="cleaning_fee"
-              onChange={handleInputChange}/>
+              onBlur={handleInputChange}/>
           <br />
           <label htmlFor="extra_people">
            Extra people:</label>
@@ -203,7 +221,7 @@ export default function Listings(){
               type= "float"
               id="extra_people"
               name="extra_people"
-              onChange={handleInputChange}/>
+              onBlur={handleInputChange}/>
           <br />
           <label htmlFor="guests_included">
            Guests included:</label>
@@ -211,11 +229,11 @@ export default function Listings(){
               type= "float"
               id="guests_included"
               name="eguests_included"
-              onChange={handleInputChange}/>
+              onBlur={handleInputChange}/>
           <br />
           <label htmlFor="country">
            Country:</label>
-          <select id="country" name="country" onChange={handleInputChange}>
+          <select id="country" name="country" onBlur={handleInputChange}>
             {country_options.map((country_options) => (
               <option name="country" value={country_options.label}>{country_options.label}</option>
             ))}</select>
@@ -226,7 +244,7 @@ export default function Listings(){
               type="text"
               id="goverment_area"
               name="goverment_area"
-              onChange={handleInputChange}/>
+              onBlur={handleInputChange}/>
           <br />
           <label htmlFor="street">
             Street:</label>
@@ -234,7 +252,7 @@ export default function Listings(){
               type="text"
               id="street"
               name="street"
-              onChange={handleInputChange}/>
+              onBlur={handleInputChange}/>
           <br />
           <input type="submit" />
         </form>
