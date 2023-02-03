@@ -86,45 +86,32 @@ export default function Listings(){
           <br />
           <label htmlFor="property_type">
             Property Type:</label>
-          <select id="property_type" name="property_type" onBlur={handleInputChange}>
-            {property_options.map((property_options) => (
-              <option name="property_type" value={property_options.label}>{property_options.label}</option>
-            ))}</select>
-
-
-          <br />
-          <Select options={bed_options}
-          id="bed_type"
-          onChange={(option)=>handleInputChange({"target":{"name":"bed_type","value":option.label}})}
+          <Select
+            options={property_options}
+            id="property_type"
+            onChange={(option)=>handleInputChange({"target":{"name":"property_type","value":option.label}})}
           />
           <br />
-          <Select options={amenities_options}
-          isMulti
-          getOptionValue={(option)=>{return option.label}}
-          id="amenities"
-          isSearchable={true}
-          onChange={(option)=>handleInputChange({"target":{"name":"amenities","value":[option.map(x=>x.label)]}})}
-          />
-          <br />
-
           <label htmlFor="room_type">
             Room Type:</label>
-          <select id="room_type" name="room_type" onBlur={handleInputChange}>
-            {room_options.map((room_options) => (
-              <option name="room_type" value={room_options.label}>{room_options.label}</option>
-            ))}</select>
+          <Select
+          id="room_type"
+          options={room_options}
+          onChange={(option)=>handleInputChange({"target":{"name":"room_type","value":option.label}})}
+          />
           <br />
           <label htmlFor="bed_type">
             Bed Type:</label>
-          <select id="bed_type" name="bed_type" onBlur={handleInputChange}>
-            {bed_options.map((bed_options) => (
-              <option name="bed_type" value={bed_options.label}>{bed_options.label}</option>
-            ))}</select>
+            <Select
+            options={bed_options}
+            id="bed_type"
+            onChange={(option)=>handleInputChange({"target":{"name":"bed_type","value":option.label}})}
+          />
           <br />
           <label htmlFor="minimum_nights">
             Minimum nights:</label>
           <input
-              type= "int"
+              type= "number"
               id="minimum_nights"
               name="minimum_nights"
               onBlur={handleInputChange}/>
@@ -132,22 +119,23 @@ export default function Listings(){
           <label htmlFor="maximum_nights">
             Maximum nights:</label>
           <input
-              type= "int"
+              type= "number"
               id="maximum_nights"
               name="maximum_nights"
               onBlur={handleInputChange}/>
           <br />
           <label htmlFor="cancellation_policy">
             Cancellation policy:</label>
-          <select id="cancellation_policy" name="cancellation_policy" onBlur={handleInputChange}>
-            {cancelation_options.map((cancelation_options) => (
-              <option name="cancellation_policy" value={cancelation_options.label}>{cancelation_options.label}</option>
-            ))}</select>
+          <Select
+          options={cancelation_options}
+            id="cancellation_policy"
+            onChange={(option)=>handleInputChange({"target":{"name":"cancellation_type","value":option.label}})}
+          />
           <br />
           <label htmlFor="accommodates">
            Accommodates:</label>
           <input
-              type= "int"
+              type= "number"
               id="accommodates"
               name="accommodates"
               onBlur={handleInputChange}/>
@@ -155,7 +143,7 @@ export default function Listings(){
           <label htmlFor="bedrooms">
             Bedrooms:</label>
           <input
-              type= "int"
+              type= "number"
               id="bedrooms"
               name="bedrooms"
               onBlur={handleInputChange}/>
@@ -163,7 +151,7 @@ export default function Listings(){
           <label htmlFor="Beds">
             Beds:</label>
           <input
-              type= "int"
+              type= "number"
               id="Beds"
               name="Beds"
               onBlur={handleInputChange}/>
@@ -171,22 +159,25 @@ export default function Listings(){
           <label htmlFor="bathrooms">
             Bathrooms:</label>
           <input
-              type= "float"
+              type= "number"
               id="bathrooms"
               name="bathrooms"
               onBlur={handleInputChange}/>
           <br />
           <label htmlFor="amenities">
            Amenities:</label>
-          <select id="amenities" name="amenities" onBlur={handleInputChange} multiple>
-            {amenities_options.map((amenities_options) => (
-              <option name="amenities" value={amenities_options.label}>{amenities_options.label}</option>
-            ))}</select>
+          <Select options={amenities_options}
+            isMulti
+            getOptionValue={(option)=>{return option.label}}
+            id="amenities"
+            isSearchable={true}
+            onChange={(option)=>handleInputChange({"target":{"name":"amenities","value":[option.map(x=>x.label)]}})}
+          />
           <br />
           <label htmlFor="price">
             Price:</label>
           <input
-              type= "float"
+              type= "number"
               id="price"
               name="price"
               onBlur={handleInputChange}/>
@@ -194,7 +185,7 @@ export default function Listings(){
           <label htmlFor="weekly_price">
           Weekly price:</label>
           <input
-              type= "float"
+              type= "number"
               id="weekly_price"
               name="weekly_price"
               onBlur={handleInputChange}/>
@@ -202,7 +193,7 @@ export default function Listings(){
           <label htmlFor="monthly_price">
            Monthly price:</label>
           <input
-              type= "float"
+              type= "number"
               id="monthly_price"
               name="monthly_price"
               onBlur={handleInputChange}/>
@@ -210,7 +201,7 @@ export default function Listings(){
           <label htmlFor="cleaning_fee">
            Cleaning fee:</label>
           <input
-              type= "float"
+              type= "number"
               id="cleaning_fee"
               name="cleaning_fee"
               onBlur={handleInputChange}/>
@@ -218,7 +209,7 @@ export default function Listings(){
           <label htmlFor="extra_people">
            Extra people:</label>
           <input
-              type= "float"
+              type= "number"
               id="extra_people"
               name="extra_people"
               onBlur={handleInputChange}/>
@@ -226,17 +217,18 @@ export default function Listings(){
           <label htmlFor="guests_included">
            Guests included:</label>
           <input
-              type= "float"
+              type= "number"
               id="guests_included"
               name="eguests_included"
               onBlur={handleInputChange}/>
           <br />
           <label htmlFor="country">
            Country:</label>
-          <select id="country" name="country" onBlur={handleInputChange}>
-            {country_options.map((country_options) => (
-              <option name="country" value={country_options.label}>{country_options.label}</option>
-            ))}</select>
+          <Select
+            options={country_options}
+            id="country"
+            onChange={(option)=>handleInputChange({"target":{"name":"country","value":option.label}})}
+          />
           <br />
           <label htmlFor="goverment_area">
             Goverment Area:</label>
