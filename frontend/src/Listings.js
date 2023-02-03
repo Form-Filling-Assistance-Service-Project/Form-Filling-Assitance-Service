@@ -85,20 +85,157 @@ export default function Listings(){
           <label htmlFor="property_type">
             Property Type:</label>
           <select id="property_type" name="property_type" onChange={handleInputChange}>
-            {options.map((option) => (
-              <option name="property_type" value={option.label}>{option.label}</option>
-            ))}
-          </select>
+            {property_options.map((property_options) => (
+              <option name="property_type" value={property_options.label}>{property_options.label}</option>
+            ))}</select>
           <br />
-          <label>
-            Number of guests:
-            <input
-              name="numberOfGuests"
-              type="number"
-              value={inputs.numberOfGuests || ""}
-              onChange={handleInputChange} />
-          </label>
-          <br/>
+          <label htmlFor="room_type">
+            Room Type:</label>
+          <select id="room_type" name="room_type" onChange={handleInputChange}>
+            {room_options.map((room_options) => (
+              <option name="room_type" value={room_options.label}>{room_options.label}</option>
+            ))}</select>
+          <br />
+          <label htmlFor="bed_type">
+            Bed Type:</label>
+          <select id="bed_type" name="bed_type" onChange={handleInputChange}>
+            {bed_options.map((bed_options) => (
+              <option name="bed_type" value={bed_options.label}>{bed_options.label}</option>
+            ))}</select>
+          <br /> 
+          <label htmlFor="minimum_nights">
+            Minimum nights:</label>
+          <input
+              type= "int"
+              id="minimum_nights"
+              name="minimum_nights"
+              onChange={handleInputChange}/>
+          <br />
+          <label htmlFor="maximum_nights">
+            Maximum nights:</label>
+          <input
+              type= "int"
+              id="maximum_nights"
+              name="maximum_nights"
+              onChange={handleInputChange}/>
+          <br />
+          <label htmlFor="cancellation_policy">
+            Cancellation policy:</label>
+          <select id="cancellation_policy" name="cancellation_policy" onChange={handleInputChange}>
+            {cancelation_options.map((cancelation_options) => (
+              <option name="cancellation_policy" value={cancelation_options.label}>{cancelation_options.label}</option>
+            ))}</select>
+          <br />
+          <label htmlFor="accommodates">
+           Accommodates:</label>
+          <input
+              type= "int"
+              id="accommodates"
+              name="accommodates"
+              onChange={handleInputChange}/>
+          <br />
+          <label htmlFor="bedrooms">
+            Bedrooms:</label>
+          <input
+              type= "int"
+              id="bedrooms"
+              name="bedrooms"
+              onChange={handleInputChange}/>
+          <br />
+          <label htmlFor="Beds">
+            Beds:</label>
+          <input
+              type= "int"
+              id="Beds"
+              name="Beds"
+              onChange={handleInputChange}/>
+          <br />
+          <label htmlFor="bathrooms">
+            Bathrooms:</label>
+          <input
+              type= "float"
+              id="bathrooms"
+              name="bathrooms"
+              onChange={handleInputChange}/>
+          <br />
+          <label htmlFor="amenities">
+           Amenities:</label>
+          <select id="amenities" name="amenities" onChange={handleInputChange} multiple>
+            {amenities_options.map((amenities_options) => (
+              <option name="amenities" value={amenities_options.label}>{amenities_options.label}</option>
+            ))}</select>
+          <br />
+          <label htmlFor="price">
+            Price:</label>
+          <input
+              type= "float"
+              id="price"
+              name="price"
+              onChange={handleInputChange}/>
+          <br />
+          <label htmlFor="weekly_price">
+          Weekly price:</label>
+          <input
+              type= "float"
+              id="weekly_price"
+              name="weekly_price"
+              onChange={handleInputChange}/>
+          <br />
+          <label htmlFor="monthly_price">
+           Monthly price:</label>
+          <input
+              type= "float"
+              id="monthly_price"
+              name="monthly_price"
+              onChange={handleInputChange}/>
+          <br />
+          <label htmlFor="cleaning_fee">
+           Cleaning fee:</label>
+          <input
+              type= "float"
+              id="cleaning_fee"
+              name="cleaning_fee"
+              onChange={handleInputChange}/>
+          <br />
+          <label htmlFor="extra_people">
+           Extra people:</label>
+          <input
+              type= "float"
+              id="extra_people"
+              name="extra_people"
+              onChange={handleInputChange}/>
+          <br />
+          <label htmlFor="guests_included">
+           Guests included:</label>
+          <input
+              type= "float"
+              id="guests_included"
+              name="eguests_included"
+              onChange={handleInputChange}/>
+          <br />
+          <label htmlFor="country">
+           Country:</label>
+          <select id="country" name="country" onChange={handleInputChange}>
+            {country_options.map((country_options) => (
+              <option name="country" value={country_options.label}>{country_options.label}</option>
+            ))}</select>
+          <br />
+          <label htmlFor="goverment_area">
+            Goverment Area:</label>
+          <input
+              type="text"
+              id="goverment_area"
+              name="goverment_area"
+              onChange={handleInputChange}/>
+          <br />
+          <label htmlFor="street">
+            Street:</label>
+          <input
+              type="text"
+              id="street"
+              name="street"
+              onChange={handleInputChange}/>
+          <br />
           <input type="submit" />
         </form>
     );
