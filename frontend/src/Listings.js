@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Select from "react-select";
 import axios from "axios";
-
+import Chart from "react-apexcharts";
+import Field from "./field";
 
 const property_options = [{label:"Apartment"},{label:"House"},{label:"Guest"}, {label:"suite"},{label:"Serviced"},
     {label:"Hotel"},{label:"Condominium"},{label:"Boutique hotel"},{label:"Aparthotel"},{label:"Loft"},
@@ -28,17 +29,49 @@ const amenities_options = [{label:"Dishes and silverware"},{label:"Shampoo"},{la
             {label:"Smoking allowed"},{label:"Smoke detector"},{label:"Iron"},
             {label:"Children's dinnerware"},{label:"Coffee maker" }]
 
+
 const country_options = [{label:"Spain"},{label:"Canada"},{label:"China"},{label:"United States"},{label:"Hong Kong"},{label:"Brazil"},
     {label:"Turkey"},{label:"Portugal"},{label:"Australia"}]
 
+
+
+
+  const options = {
+    xaxis: {
+      categories: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+    }
+  };
+  const series = [
+    {
+      name: "series-1",
+      data: [30, 40, 25, 50, 49, 21, 70, 51]
+    },
+    {
+      name: "series-2",
+      data: [23, 12, 54, 61, 32, 56, 81, 19]
+    },
+    {
+      name: "series-3",
+      data: [24, 20, 5, 75, 42, 79, 72, 35]
+    }
+  ];
+
+
+
 export default function Listings(){
     const [inputs, setInputs] = useState({})
+    const [focused, setFocused] = useState({})
 
     useEffect(() => {
       getSuggestion();
       console.log(inputs)
     },[inputs]);
 
+    const handleFieldFocus= (event)=>{
+      const name = event.name;
+      const focus = event.focus;
+      setFocused(values=>({...values, [name]:focus}))
+    }
 
     const handleInputChange= (event)=> {
       const name = event.target.name;
@@ -48,6 +81,7 @@ export default function Listings(){
       console.log(name);
       console.log(inputs)
     }
+
 
     const handleSubmit= (event)=>{
       event.preventDefault();
@@ -68,14 +102,18 @@ export default function Listings(){
 
     return (
         <form onSubmit={handleSubmit} onChange={getSuggestion}>
-          <label htmlFor="name">
-            Name:</label>
-          <input
-              type="text"
-              id="name"
-              name="name"
-              onBlur={handleInputChange}
-              />
+
+          {focused["name"]&&<Chart options={options} series={series} type="bar" />}
+            <label htmlFor="name">
+              Name:</label>
+            <input
+                type="text"
+                id="name"
+                name="name"
+                onBlur={(e)=>{handleInputChange(e);handleFieldFocus({"name":"name","focus":false})}}
+                onFocus={()=>handleFieldFocus({"name":"name","focus":true})}
+            />
+
           <br />
           <label htmlFor="description">
             Description:</label>

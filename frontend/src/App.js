@@ -17,8 +17,9 @@ function App() {
         </p>
         {/* This custom component will hold all the functionality related to our Users */}
         <User />
-        <Listings/>
+
       </header>
+      <Listings/>
     </div>
   );
 }
