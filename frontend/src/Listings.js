@@ -39,18 +39,29 @@ export default function Listings(){
       const value = event.target.value;
 
       setInputs(values=>({...values, [name]:value}))
-
+      getSuggestion();
       console.log(name);
     }
 
     const handleSubmit= (event)=>{
       event.preventDefault();
       console.log(inputs)
-      alert(inputs)
+    }
+
+    function getSuggestion(){
+      axios
+        .post("api/airbnb/listings",inputs,{})
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          alert("there was an error getting recommendations");
+          console.log(error);
+        })
     }
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} onChange={getSuggestion}>
           <label htmlFor="name">
             Name:</label>
           <input
@@ -171,7 +182,7 @@ export default function Listings(){
             getOptionValue={(option)=>{return option.label}}
             id="amenities"
             isSearchable={true}
-            onChange={(option)=>handleInputChange({"target":{"name":"amenities","value":[option.map(x=>x.label)]}})}
+            onChange={(option)=>handleInputChange({"target":{"name":"amenities","value":option.map(x=>x.label)}})}
           />
           <br />
           <label htmlFor="price">
@@ -219,7 +230,7 @@ export default function Listings(){
           <input
               type= "number"
               id="guests_included"
-              name="eguests_included"
+              name="guests_included"
               onBlur={handleInputChange}/>
           <br />
           <label htmlFor="country">
