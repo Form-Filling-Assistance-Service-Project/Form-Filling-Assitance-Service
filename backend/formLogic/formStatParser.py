@@ -13,7 +13,7 @@ def fields_stats(form,fcollection,filled_form):
     related_listings = list(fcollection.find(query,{"_id":0}).limit(1000))
     with ThreadPoolExecutor() as executer:
         for field in form["fields"]:
-            if field["field_name"] not in filled_form.keys():
+            if related_listings and field["field_name"] not in filled_form.keys():
                 print(field["field_name"]+" unfilled part")
                 values = [listing.get(field["field_name"]) for listing in related_listings
                     if listing.get(field["field_name"]) is not None]

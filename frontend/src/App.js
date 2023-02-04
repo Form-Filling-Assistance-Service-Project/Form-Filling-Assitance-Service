@@ -16,7 +16,7 @@ function App() {
           the frontend, backend and database interact.
         </p>
         {/* This custom component will hold all the functionality related to our Users */}
-        {/* <User /> */}
+        <User />
         <Listings/>
       </header>
     </div>
