@@ -4,10 +4,12 @@ from database.db import mongo,collection
 from bson import ObjectId
 from formLogic.formStatParser import fields_stats
 
-
 # create the blueprint to be registered in app.py
 form = Blueprint("form", __name__)
-
+@form.route('/')
+def index():
+    print(request.headers)
+    return "Hi!! from server"
 
 @form.route("/api/<company_name>", methods=["POST"])
 def create_user(company_name):
