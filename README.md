@@ -33,10 +33,11 @@ Steps To run project:
 1.Clone repo to local directory 
 
 Initialize DataBases:
+
 2.open first shell
 create data/clientdb directory and initialize mongodb database for client on localhost port 27017 
 
-CMD: ```mongod --dbpath .../data/cliendb```
+CMD: ```mongod --dbpath .../data/clientdb```
 
 
 3.open second shell 
