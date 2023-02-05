@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { usePrevious,useState, useEffect, useRef } from "react";
 import Select from "react-select";
 import axios from "axios";
 import Chart from "react-apexcharts";
+import "./Listings.css";
 
 const property_options = [{label:"Apartment"},{label:"House"},{label:"Guest"}, {label:"suite"},{label:"Serviced"},
     {label:"Hotel"},{label:"Condominium"},{label:"Boutique hotel"},{label:"Aparthotel"},{label:"Loft"},
@@ -38,25 +39,16 @@ const fields = {"name":"string_sug","description":"string_sug","neighborhood_ove
                "bedrooms":"dist","beds":"dist","bathrooms":"dist","amenities":"dist","price":"dist","weekly_price":"dist","monthly_price":"dist",
                "cleaning_fee":"dist","extra_people":"dist","guests_included":"dist","country":"dist","government_area":"string_sug","street":"string_sug"}
 
-  const options = {
-    categories: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
-  };
-  const series =
-    [{
-      name:"recommeded words",
-      data: [30, 40, 25, 50, 49, 21, 70, 51]
-    }];
-
-
 
 export default function Listings(){
     const [inputs, setInputs] = useState({})
     const [focused, setFocused] = useState({})
     const [dist, setDist] = useState({})
-    const [series, setSeries] = useState({})
+    const prevInputs = useRef(inputs);
 
     useEffect(() => {
-      getSuggestion();
+      if(JSON.stringify(inputs)=== JSON.stringify(prevInputs))
+        getSuggestion();
       console.log(inputs)
     },[inputs]);
 
@@ -67,8 +59,9 @@ export default function Listings(){
 
     const handleFieldFocus= (event)=>{
       const name = event.name;
+      if(dist[name] !== undefined){
       const focus = event.focus;
-      setFocused(values=>({...values, [name]:focus}))
+      setFocused(values=>({...values, [name]:focus}))}
     }
 
     const handleInputChange= (event)=> {
@@ -106,11 +99,6 @@ export default function Listings(){
                   console.log(tmp)
                 setDist(values=>({...values, [field_name]:tmp}));
               }
-
-              // (response.data[i]).forEach((value,key) =>
-              // {chart_options[key]={"options":{"xaxis":value.map((x)=>x[0])},"series":{"data":value.map((x)=>x[1])}};
-            //});
-
           }
         })
         .catch((error) => {
@@ -120,9 +108,11 @@ export default function Listings(){
     }
 
     return (
-        <form onSubmit={handleSubmit} onChange={getSuggestion}>
-            <label htmlFor="name">
-              Name:</label>
+      <div className="Listings-Form">
+        <h1 align="center">AIRBNB Listings Registration Form</h1>
+        <form  onSubmit={handleSubmit} onChange={getSuggestion}>
+          <fieldset>
+            <legend htmlFor="name">Airbnb Name:</legend>
             <input
                 type="text"
                 id="name"
@@ -130,11 +120,13 @@ export default function Listings(){
                 onBlur={(e)=>{handleInputChange(e);handleFieldFocus({"name":"name","focus":false})}}
                 onFocus={()=>handleFieldFocus({"name":"name","focus":true})}
             />
-          {focused["name"]&&<Chart
-           options={{}} name="suggested words" series={[{"data":dist["name"]?dist["name"]:null}]} type="area" />}
+          {focused["name"]&&<div style={{height:350,width:"70%",overflowX:"scroll",margin:"auto"}}><Chart
+           options={{}} height="350" name="suggested words" series={[{"data":dist["name"]?dist["name"]:null}]} type="heatmap" /></div>}
+           </fieldset>
           <br />
-          <label htmlFor="description">
-            Description:</label>
+          <fieldset>
+          <legend htmlFor="description">
+            Description:</legend>
           <input
               type="text"
               id="description"
@@ -142,11 +134,13 @@ export default function Listings(){
               onBlur={(e)=>{handleInputChange(e);handleFieldFocus({"name":"description","focus":false})}}
               onFocus={()=>handleFieldFocus({"name":"description","focus":true})}
               />
-          {focused["description"]&&<Chart
-                    options={{}} name="suggested words" series={[{"data":dist["description"]?dist["description"]:null}]} type="area" />}
+          {focused["description"]&&<div style={{height:350,width:"70%",overflowX:"scroll",margin:"auto"}}><Chart
+                    options={{}} height="350" name="suggested words" series={[{"data":dist["description"]?dist["description"]:null}]} type="line" />></div>}
+          </fieldset>
           <br />
-          <label htmlFor="neighborhood_overview">
-            Neighborhood Overview:</label>
+          <fieldset>
+          <legend htmlFor="neighborhood_overview">
+            Neighborhood Overview:</legend>
           <input
               type="text"
               id="neighborhood_overview"
@@ -156,9 +150,11 @@ export default function Listings(){
               />
           {focused["neighborhood_overview"]&&<Chart
                     options={{}} name="suggested words" series={[{"data":dist["neighborhood_overview"]?dist["neighborhood_overview"]:null}]} type="area" />}
+          </fieldset>
           <br />
-          <label htmlFor="transit">
-            Transit:</label>
+          <fieldset>
+          <legend htmlFor="transit">
+            Transit:</legend>
           <input
               type="text"
               id="transit"
@@ -168,9 +164,11 @@ export default function Listings(){
               />
           {focused["transit"]&&<Chart
            options={{}} name="suggested words" series={[{"data":dist["transit"]?dist["transit"]:null}]} type="area" />}
+          </fieldset>
           <br />
-          <label htmlFor="property_type">
-            Property Type:</label>
+          <fieldset>
+          <legend htmlFor="property_type">
+            Property Type:</legend>
           <Select
             options={property_options}
             id="property_type"
@@ -180,9 +178,11 @@ export default function Listings(){
           />
           {focused["property_type"]&&<Chart
            options={{}} name="suggested words" series={[{"data":dist["property_type"]?dist["property_type"]:null}]} type="area" />}
+          </fieldset>
           <br />
-          <label htmlFor="room_type">
-            Room Type:</label>
+          <fieldset>
+          <legend htmlFor="room_type">
+            Room Type:</legend>
           <Select
           id="room_type"
           options={room_options}
@@ -192,7 +192,9 @@ export default function Listings(){
           />
           {focused["room_type"]&&<Chart
            options={{}} name="suggested words" series={[{"data":dist["room_type"]?dist["room_type"]:null}]} type="area" />}
+          </fieldset>
           <br />
+          <fieldset>
           <label htmlFor="bed_type">
             Bed Type:</label>
             <Select
@@ -200,9 +202,12 @@ export default function Listings(){
             id="bed_type"
             onChange={(option)=>handleInputChange({"target":{"name":"bed_type","value":option.label}})}
           />
+          </fieldset>
           <br />
-          <label htmlFor="minimum_nights">
-            Minimum nights:</label>
+          <br />
+          <fieldset>
+          <legend htmlFor="minimum_nights">
+            Minimum nights:</legend>
           <input
               type= "number"
               id="minimum_nights"
@@ -212,7 +217,9 @@ export default function Listings(){
               />
               {focused["minimum_nights"]&&<Chart
            options={{}} name="suggestion" series={[{"data":dist["minimum_nights"]?dist["minimum_nights"]:null}]} type="area" />}
+          </fieldset>
           <br />
+          <fieldset>
           <label htmlFor="maximum_nights">
             Maximum nights:</label>
           <input
@@ -224,19 +231,24 @@ export default function Listings(){
               />
               {focused["maximum_nights"]&&<Chart
            options={{}} name="suggestion" series={[{"data":dist["maximum_nights"]?dist["maximum_nights"]:null}]} type="area" />}
+          </fieldset>
           <br />
+          <fieldset>
           <label htmlFor="cancellation_policy">
             Cancellation policy:</label>
+          <div className="Select_Field">
           <Select
           options={cancelation_options}
             id="cancellation_policy"
             onChange={(option)=>handleInputChange({"target":{"name":"cancellation_type","value":option.label}})}
             onBlur={()=>{handleFieldFocus({"name":"cancellation_policy","focus":false})}}
             onFocus={()=>handleFieldFocus({"name":"cancellation_policy","focus":true})}
-          />
+          /></div>
           {focused["cancellation_policy"]&&<Chart
            options={{}} name="suggestion" series={[{"data":dist["cancellation_policy"]?dist["cancellation_policy"]:null}]} type="area" />}
+          </fieldset>
           <br />
+          <fieldset>
           <label htmlFor="accommodates">
            Accommodates:</label>
           <input
@@ -248,7 +260,9 @@ export default function Listings(){
               />
               {focused["accommodates"]&&<Chart
            options={{}} name="suggestion" series={[{"data":dist["accommodates"]?dist["accommodates"]:null}]} type="area" />}
+          </fieldset>
           <br />
+          <fieldset>
           <label htmlFor="bedrooms">
             Bedrooms:</label>
           <input
@@ -260,7 +274,9 @@ export default function Listings(){
               />
               {focused["bedrooms"]&&<Chart
            options={{}} name="suggestion" series={[{"data":dist["bedrooms"]?dist["bedrooms"]:null}]} type="area" />}
+          </fieldset>
           <br />
+          <fieldset>
           <label htmlFor="Beds">
             Beds:</label>
           <input
@@ -272,7 +288,9 @@ export default function Listings(){
               />
               {focused["Beds"]&&<Chart
            options={{}} name="Beds" series={[{"data":dist["Beds"]?dist["Beds"]:null}]} type="area" />}
+          </fieldset>
           <br />
+          <fieldset>
           <label htmlFor="bathrooms">
             Bathrooms:</label>
           <input
@@ -284,7 +302,9 @@ export default function Listings(){
               />
               {focused["bathrooms"]&&<Chart
            options={{}} name="bathrooms" series={[{"data":dist["bathrooms"]?dist["bathrooms"]:null}]} type="area" />}
+          </fieldset>
           <br />
+          <fieldset>
           <label htmlFor="amenities">
            Amenities:</label>
           <Select options={amenities_options}
@@ -298,7 +318,9 @@ export default function Listings(){
           />
           {focused["amenities"]&&<Chart
            options={{}} name="amenities" series={[{"data":dist["amenities"]?dist["amenities"]:null}]} type="bar" />}
+          </fieldset>
           <br />
+          <fieldset>
           <label htmlFor="price">
             Price:</label>
           <input
@@ -310,7 +332,9 @@ export default function Listings(){
               />
               {focused["price"]&&<Chart
            options={{}} name="price" series={[{"data":dist["price"]?dist["price"]:null}]} type="area" />}
+          </fieldset>
           <br />
+          <fieldset>
           <label htmlFor="weekly_price">
           Weekly price:</label>
           <input
@@ -322,7 +346,9 @@ export default function Listings(){
               />
               {focused["weekly_price"]&&<Chart
            options={{}} name="weekly_price" series={[{"data":dist["weekly_price"]?dist["weekly_price"]:null}]} type="area" />}
+          </fieldset>
           <br />
+          <fieldset>
           <label htmlFor="monthly_price">
            Monthly price:</label>
           <input
@@ -334,7 +360,9 @@ export default function Listings(){
               />
               {focused["monthly_price"]&&<Chart
            options={{}} name="monthly_price" series={[{"data":dist["monthly_price"]?dist["monthly_price"]:null}]} type="area" />}
+          </fieldset>
           <br />
+          <fieldset>
           <label htmlFor="cleaning_fee">
            Cleaning fee:</label>
           <input
@@ -346,7 +374,9 @@ export default function Listings(){
               />
               {focused["cleaning_fee"]&&<Chart
            options={{}} name="cleaning_fee" series={[{"data":dist["cleaning_fee"]?dist["cleaning_fee"]:null}]} type="area" />}
+          </fieldset>
           <br />
+          <fieldset>
           <label htmlFor="extra_people">
            Extra people:</label>
           <input
@@ -358,7 +388,9 @@ export default function Listings(){
               />
               {focused["extra_people"]&&<Chart
            options={{}} name="extra_people" series={[{"data":dist["extra_people"]?dist["extra_people"]:null}]} type="area" />}
+          </fieldset>
           <br />
+          <fieldset>
           <label htmlFor="guests_included">
            Guests included:</label>
           <input
@@ -370,7 +402,9 @@ export default function Listings(){
               />
               {focused["guests_included"]&&<Chart
            options={{}} name="guests_included" series={[{"data":dist["guests_included"]?dist["guests_included"]:null}]} type="area" />}
+          </fieldset>
           <br />
+          <fieldset>
           <label htmlFor="country">
            Country:</label>
           <Select
@@ -382,7 +416,9 @@ export default function Listings(){
           />
           {focused["country"]&&<Chart
            options={{}} name="country" series={[{"data":dist["country"]?dist["country"]:null}]} type="area" />}
+          </fieldset>
           <br />
+          <fieldset>
           <label htmlFor="government_area">
             Goverment Area:</label>
           <input
@@ -394,7 +430,9 @@ export default function Listings(){
               />
               {focused["government_area"]&&<Chart
            options={{}} name="government_area" series={[{"data":dist["government_area"]?dist["government_area"]:null}]} type="area" />}
+          </fieldset>
           <br />
+          <fieldset>
           <label htmlFor="street">
             Street:</label>
           <input
@@ -406,8 +444,9 @@ export default function Listings(){
               />
               {focused["street"]&&<Chart
            options={{}} name="street" series={[{"data":dist["street"]?dist["street"]:null}]} type="area" />}
+          </fieldset>
           <br />
           <input type="submit" />
-        </form>
+        </form></div>
     );
 }

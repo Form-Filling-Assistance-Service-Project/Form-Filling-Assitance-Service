@@ -1,0 +1,13 @@
+.Listings-Form{
+    margin:auto;
+    width:80%;
+    background-color: rgb(211, 219, 223);
+    justify-content: left;
+    align-items: left;
+    text-align: left;
+}
+
+.Select-Field{
+    width: 40%;
+    margin: auto;
+}
