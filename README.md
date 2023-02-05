@@ -1,6 +1,6 @@
 # Form-Filling-Assitance-Service
 
-Backround:
+Background:
 Today, filling out interactive forms is a basic process for receiving service. With the development of the existing services, these forms have become complex and full of concepts and information that a basic user is not familiar with these details, which may make it difficult for the user to receive the optimal service, and the conditions that he deserves to receive and thus may not find the maximum potential from the service. This tool is designed to make it easier for users and provide end-to-end support with filling out and submitting forms based on suggestions tailored to the user, thus enabling new users or those who are interested in this support to fill out these forms professionally and correctly.
 
 This repository contains project of form filling assistance, this provide customers end-to-end assistance with completing and submitting their entire form. 
@@ -32,28 +32,38 @@ MongoDB
 
 1.Clone repo to local directory 
 
-Initialize DataBases:
+### Initialize DataBases-
 
 2.open first shell
+
 create data/clientdb directory and initialize mongodb database for client on localhost port 27017 
 
 CMD: ```mongod --dbpath .../data/clientdb```
 
 
 3.open second shell 
+
 create data/appdb directory and  andinitialize mongodb database for app on localhost port 4444 
+
 CMD: ```mongod --dbpath .../data/appdb --port 4444```
 
+
 4.In the project shell:
+
 a.mongosh --nodb
+
 b.load ("createFormAppDb.js")
 
 5.Open MongoDB compass:
+
 Connect to default:27017 
+
 create db :  airbnb , collection:listings 
+
 import the listings.json file
 
-Backend-
+### Backend-
+
 4.Open shell from backend directory 
 a.python -m venv ./venv
 b.source ./venv/bin/activate
@@ -61,7 +71,7 @@ c.pip install -r ./backend/requirements.txt
 d.flask run (for localhost port 8080 and localhost port 8081)
 h.Enter shell from nginx directory and run: nginx start 
 
-Frontend-
+### Frontend-
 
 5.Open new shell from frontend directory
 
