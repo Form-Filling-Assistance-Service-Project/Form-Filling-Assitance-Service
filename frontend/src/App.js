@@ -1,7 +1,5 @@
 import * as React from 'react';
-import logo from "./logo.svg";
 import "./App.css";
-import User from "./User";
 import Listings from "./Listings";
 
 
@@ -23,11 +21,8 @@ function App() {
         <p>
           This webapp provides some basic demonstration  of the functionality of the service.
         </p></div>}
-        {/* This custom component will hold all the functionality related to our Users */}
         {(page==="landing")&&<Listings/>}
       </header>
-
-
     </div></>
   );
 }

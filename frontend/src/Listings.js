@@ -29,15 +29,15 @@ const amenities_options = [{label:"Dishes and silverware"},{label:"Shampoo"},{la
             {label:"Smoking allowed"},{label:"Smoke detector"},{label:"Iron"},
             {label:"Children's dinnerware"},{label:"Coffee maker" }]
 
-
 const country_options = [{label:"Spain"},{label:"Canada"},{label:"China"},{label:"United States"},{label:"Hong Kong"},{label:"Brazil"},
     {label:"Turkey"},{label:"Portugal"},{label:"Australia"}]
-
 
 const fields = {"name":"string_sug","description":"string_sug","neighborhood_overview":"string_sug","transit":"string_sug","property_type":"dist",
                 "room_type":"dist","bed_type":"dist","minimum_nights":"dist","maximum_nights":"dist","cancellation_policy":"dist","accommodates":"dist",
                "bedrooms":"dist","beds":"dist","bathrooms":"dist","amenities":"dist","price":"dist","weekly_price":"dist","monthly_price":"dist",
                "cleaning_fee":"dist","extra_people":"dist","guests_included":"dist","country":"dist","government_area":"string_sug","street":"string_sug"}
+
+
 
 
 export default function Listings(){
@@ -79,15 +79,16 @@ export default function Listings(){
         .then((response) => {
           console.log(response);
           var data = response.data;
+          var tmp
           for(var i in data){
             const field_name=Object.keys(data[i])[0]
               if(fields[field_name]==="string_sug"){
-                var tmp = (data[i][field_name]).map((x)=>{return{"x":x[0],"y":x[1]}});
-                setDist(values=>({...values, [field_name]:tmp}));
+                  tmp = (data[i][field_name]).map((x)=>{return{"x":x[0],"y":x[1]}});
+                  setDist(values=>({...values, [field_name]:tmp}));
               }else if(fields[field_name]==="dist"){
-                var tmp = Object.entries(data[i][field_name]).map(
+                  tmp = Object.entries(data[i][field_name]).map(
                   ([k, v]) => {return {"x":k,"y":v}});
-                setDist(values=>({...values, [field_name]:tmp}));
+                  setDist(values=>({...values, [field_name]:tmp}));
               }
           }
         })
