@@ -6,7 +6,7 @@ Today, filling out interactive forms is a basic process for receiving service. W
 This repository contains project of form filling assistance, this provide customers end-to-end assistance with completing and submitting their entire form. 
 Client who want to use this tool need to send his Database URI with all the filled forms. and to send form format structure, and fields data type.
 
-#How it works
+# How it works
 The project analyzes the data in the data base, and the details that the end user adds in his form.
 Parser analyzes the filled forms from the filled forms data base, and for the unfilled forms the tool will take forms based on the fields that the user filled.
 The statistics being computing for two main types: string fields that computing based on Rake algorithm, and numerical and finite set strings that are computed for the distribution of the data, the output data has value and weight pairs. 
@@ -28,7 +28,7 @@ node.js
 MongoDB
 
 
-Steps To run project:
+## Steps To run project:
 
 1.Clone repo to local directory 
 
@@ -62,8 +62,11 @@ d.flask run (for localhost port 8080 and localhost port 8081)
 h.Enter shell from nginx directory and run: nginx start 
 
 Frontend-
+
 5.Open new shell from frontend directory
+
 a.npm install 
+
 b.npm start 
 
 
