@@ -1,4 +1,4 @@
-import React, { usePrevious,useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Select from "react-select";
 import axios from "axios";
 import Chart from "react-apexcharts";
@@ -10,9 +10,9 @@ const property_options = [{label:"Apartment"},{label:"House"},{label:"Guest"}, {
 
 const room_options = [{label:"Entire home/apt"},{label:"Private room"},{label:"Shared room"}];
 
-const bed_options = [{label:"Real bed"},{label:"Pull-out Sofa"}];
+const bed_options = [{label:"Real bed"},{label:"Couch"},{label:"Futon"},{label:"Airbed"},{label:"Pull-out Sofa"}];
 
-const cancelation_options =[{label:"moderate"},{label:"flexable"},{label:"strict_14_with_grace_period"},{label:"super_strict_60"},{label:"super_strict_30"}];
+const cancellation_options =[{label:"moderate"},{label:"flexible"},{label:"strict_14_with_grace_period"},{label:"super_strict_60"},{label:"super_strict_30"}];
 
 const amenities_options = [{label:"Dishes and silverware"},{label:"Shampoo"},{label:"Kitchen"},{label:"Wide entryway"},
             {label:"Paid parking off premises"},{label:"Host greets you"},{label:"Washer"},{label:"Wifi"},
@@ -35,7 +35,7 @@ const country_options = [{label:"Spain"},{label:"Canada"},{label:"China"},{label
 
 
 const fields = {"name":"string_sug","description":"string_sug","neighborhood_overview":"string_sug","transit":"string_sug","property_type":"dist",
-                "room_type":"dist","bed_type":"dist","minimum_nights":"dist","maximum_nights":"dist","cancelation_policy":"dist","accommodates":"dist",
+                "room_type":"dist","bed_type":"dist","minimum_nights":"dist","maximum_nights":"dist","cancellation_policy":"dist","accommodates":"dist",
                "bedrooms":"dist","beds":"dist","bathrooms":"dist","amenities":"dist","price":"dist","weekly_price":"dist","monthly_price":"dist",
                "cleaning_fee":"dist","extra_people":"dist","guests_included":"dist","country":"dist","government_area":"string_sug","street":"string_sug"}
 
@@ -47,14 +47,12 @@ export default function Listings(){
     const prevInputs = useRef(inputs);
 
     useEffect(() => {
-      if(JSON.stringify(inputs)=== JSON.stringify(prevInputs))
+      if(JSON.stringify(inputs)!== JSON.stringify(prevInputs))
         getSuggestion();
-      console.log(inputs)
     },[inputs]);
 
     useEffect(() => {
       getSuggestion();
-      console.log(inputs)
     },[]);
 
     const handleFieldFocus= (event)=>{
@@ -69,15 +67,10 @@ export default function Listings(){
       const value = event.target.value;
 
       setInputs(values=>({...values, [name]:value}))
-      console.log(name);
-      console.log(inputs)
     }
-
-    // const chart_options= {}
 
     const handleSubmit= (event)=>{
       event.preventDefault();
-      console.log(inputs)
     }
 
     function getSuggestion(){
@@ -90,19 +83,15 @@ export default function Listings(){
             const field_name=Object.keys(data[i])[0]
               if(fields[field_name]==="string_sug"){
                 var tmp = (data[i][field_name]).map((x)=>{return{"x":x[0],"y":x[1]}});
-                console.log(tmp)
                 setDist(values=>({...values, [field_name]:tmp}));
               }else if(fields[field_name]==="dist"){
-                console.log(data[i][field_name])
                 var tmp = Object.entries(data[i][field_name]).map(
                   ([k, v]) => {return {"x":k,"y":v}});
-                  console.log(tmp)
                 setDist(values=>({...values, [field_name]:tmp}));
               }
           }
         })
         .catch((error) => {
-          alert("there was an error getting recommendations");
           console.log(error);
         })
     }
@@ -120,8 +109,8 @@ export default function Listings(){
                 onBlur={(e)=>{handleInputChange(e);handleFieldFocus({"name":"name","focus":false})}}
                 onFocus={()=>handleFieldFocus({"name":"name","focus":true})}
             />
-          {focused["name"]&&<div style={{height:350,width:"70%",overflowX:"scroll",margin:"auto"}}><Chart
-           options={{}} height="350" name="suggested words" series={[{"data":dist["name"]?dist["name"]:null}]} type="heatmap" /></div>}
+          {focused["name"]&&<div style={{height:350,overflow:"scroll",margin:"auto"}}><Chart
+           options={{colors:['#546E7A', '#E91E63'],"dataLabels":{"enabled":false}}}   height={350} name="suggested words" series={[{"data":dist["name"]?dist["name"]:null}]} type="heatmap" /></div>}
            </fieldset>
           <br />
           <fieldset>
@@ -134,8 +123,8 @@ export default function Listings(){
               onBlur={(e)=>{handleInputChange(e);handleFieldFocus({"name":"description","focus":false})}}
               onFocus={()=>handleFieldFocus({"name":"description","focus":true})}
               />
-          {focused["description"]&&<div style={{height:350,width:"70%",overflowX:"scroll",margin:"auto"}}><Chart
-                    options={{}} height="350" name="suggested words" series={[{"data":dist["description"]?dist["description"]:null}]} type="line" />></div>}
+          {focused["description"]&&<div style={{height:350,overflow:"scroll",margin:"auto"}}><Chart
+                    options={{"dataLabels":{"enabled":false}}} height={350} name="suggested words" series={[{"data":dist["description"]?dist["description"]:null}]} type="area" /></div>}
           </fieldset>
           <br />
           <fieldset>
@@ -148,8 +137,8 @@ export default function Listings(){
               onBlur={(e)=>{handleInputChange(e);handleFieldFocus({"name":"neighborhood_overview","focus":false})}}
               onFocus={()=>handleFieldFocus({"name":"neighborhood_overview","focus":true})}
               />
-          {focused["neighborhood_overview"]&&<Chart
-                    options={{}} name="suggested words" series={[{"data":dist["neighborhood_overview"]?dist["neighborhood_overview"]:null}]} type="area" />}
+          {focused["neighborhood_overview"]&&<div style={{height:350,overflow:"scroll",margin:"auto"}}><Chart
+                    options={{"dataLabels":{"enabled":false}}}  height={350} name="suggested words" series={[{"data":dist["neighborhood_overview"]?dist["neighborhood_overview"]:null}]} type="area" /></div>}
           </fieldset>
           <br />
           <fieldset>
@@ -162,13 +151,15 @@ export default function Listings(){
               onBlur={(e)=>{handleInputChange(e);handleFieldFocus({"name":"transit","focus":false})}}
               onFocus={()=>handleFieldFocus({"name":"transit","focus":true})}
               />
-          {focused["transit"]&&<Chart
-           options={{}} name="suggested words" series={[{"data":dist["transit"]?dist["transit"]:null}]} type="area" />}
+          {focused["transit"]&&<div style={{height:350,overflow:"scroll",margin:"auto"}}><Chart
+           options={{"dataLabels":{"enabled":false}}}  height={350} name="suggested words" series={[{"data":dist["transit"]?dist["transit"]:null}]} type="bar" /></div>}
           </fieldset>
           <br />
           <fieldset>
           <legend htmlFor="property_type">
             Property Type:</legend>
+            {focused["property_type"]&&<div style={{height:350,overflow:"scroll",margin:"auto"}}><Chart
+           options={{"dataLabels":{"enabled":false}}} name="suggested words" height={350} series={[{"data":dist["property_type"]?dist["property_type"]:null}]} type="bar" /></div>}
           <Select
             options={property_options}
             id="property_type"
@@ -176,13 +167,13 @@ export default function Listings(){
             onBlur={()=>{handleFieldFocus({"name":"property_type","focus":false})}}
             onFocus={()=>handleFieldFocus({"name":"property_type","focus":true})}
           />
-          {focused["property_type"]&&<Chart
-           options={{}} name="suggested words" series={[{"data":dist["property_type"]?dist["property_type"]:null}]} type="area" />}
           </fieldset>
           <br />
           <fieldset>
           <legend htmlFor="room_type">
             Room Type:</legend>
+            {focused["room_type"]&&<div style={{height:350,overflow:"scroll",margin:"auto"}}><Chart
+           options={{"dataLabels":{"enabled":false}}}  height={350} name="suggested words" series={[{"data":dist["room_type"]?dist["room_type"]:null}]} type="area" /></div>}
           <Select
           id="room_type"
           options={room_options}
@@ -190,20 +181,21 @@ export default function Listings(){
           onBlur={()=>{handleFieldFocus({"name":"room_type","focus":false})}}
           onFocus={()=>handleFieldFocus({"name":"room_type","focus":true})}
           />
-          {focused["room_type"]&&<Chart
-           options={{}} name="suggested words" series={[{"data":dist["room_type"]?dist["room_type"]:null}]} type="area" />}
           </fieldset>
           <br />
           <fieldset>
-          <label htmlFor="bed_type">
-            Bed Type:</label>
+            <legend htmlFor="bed_type">
+            Bed Type:</legend>
+          {focused["bed_type"]&&<div style={{height:350,overflow:"scroll",margin:"auto"}}><Chart
+           options={{"dataLabels":{"enabled":false}}}  height={350} name="suggested words" series={[{"data":dist["bed_type"]?dist["bed_type"]:null}]} type="area" /></div>}
             <Select
             options={bed_options}
             id="bed_type"
             onChange={(option)=>handleInputChange({"target":{"name":"bed_type","value":option.label}})}
+            onBlur={()=>{handleFieldFocus({"name":"bed_type","focus":false})}}
+            onFocus={()=>handleFieldFocus({"name":"bed_type","focus":true})}
           />
           </fieldset>
-          <br />
           <br />
           <fieldset>
           <legend htmlFor="minimum_nights">
@@ -215,13 +207,13 @@ export default function Listings(){
               onBlur={(e)=>{handleInputChange(e);handleFieldFocus({"name":"minimum_nights","focus":false})}}
               onFocus={()=>handleFieldFocus({"name":"minimum_nights","focus":true})}
               />
-              {focused["minimum_nights"]&&<Chart
-           options={{}} name="suggestion" series={[{"data":dist["minimum_nights"]?dist["minimum_nights"]:null}]} type="area" />}
+              {focused["minimum_nights"]&&<div style={{height:350,overflow:"scroll",margin:"auto"}}><Chart
+           options={{"dataLabels":{"enabled":false}}}  height={350} name="suggestion" series={[{"data":dist["minimum_nights"]?dist["minimum_nights"]:null}]} type="area" /></div>}
           </fieldset>
           <br />
           <fieldset>
-          <label htmlFor="maximum_nights">
-            Maximum nights:</label>
+          <legend htmlFor="maximum_nights">
+            Maximum nights:</legend>
           <input
               type= "number"
               id="maximum_nights"
@@ -229,28 +221,27 @@ export default function Listings(){
               onBlur={(e)=>{handleInputChange(e);handleFieldFocus({"name":"maximum_nights","focus":false})}}
               onFocus={()=>handleFieldFocus({"name":"maximum_nights","focus":true})}
               />
-              {focused["maximum_nights"]&&<Chart
-           options={{}} name="suggestion" series={[{"data":dist["maximum_nights"]?dist["maximum_nights"]:null}]} type="area" />}
+              {focused["maximum_nights"]&&<div style={{height:350,overflow:"scroll",margin:"auto"}}><Chart
+           options={{"dataLabels":{"enabled":false}}}  height={350} name="suggestion" series={[{"data":dist["maximum_nights"]?dist["maximum_nights"]:null}]} type="area" /></div>}
           </fieldset>
           <br />
           <fieldset>
-          <label htmlFor="cancellation_policy">
-            Cancellation policy:</label>
-          <div className="Select_Field">
+          <legend htmlFor="cancellation_policy">
+            Cancellation policy:</legend>
+            {focused["cancellation_policy"]&&<div style={{height:350,overflow:"scroll",margin:"auto"}}><Chart
+           options={{"dataLabels":{"enabled":false}}}  height={350}  name="suggestion" series={[{"data":dist["cancellation_policy"]?dist["cancellation_policy"]:null}]} type="area" /></div>}
           <Select
-          options={cancelation_options}
+            options={cancellation_options}
             id="cancellation_policy"
-            onChange={(option)=>handleInputChange({"target":{"name":"cancellation_type","value":option.label}})}
+            onChange={(option)=>handleInputChange({"target":{"name":"cancellation_policy","value":option.label}})}
             onBlur={()=>{handleFieldFocus({"name":"cancellation_policy","focus":false})}}
             onFocus={()=>handleFieldFocus({"name":"cancellation_policy","focus":true})}
-          /></div>
-          {focused["cancellation_policy"]&&<Chart
-           options={{}} name="suggestion" series={[{"data":dist["cancellation_policy"]?dist["cancellation_policy"]:null}]} type="area" />}
+          />
           </fieldset>
           <br />
           <fieldset>
-          <label htmlFor="accommodates">
-           Accommodates:</label>
+          <legend htmlFor="accommodates">
+           Accommodates:</legend>
           <input
               type= "number"
               id="accommodates"
@@ -258,13 +249,13 @@ export default function Listings(){
               onBlur={(e)=>{handleInputChange(e);handleFieldFocus({"name":"accommodates","focus":false})}}
               onFocus={()=>handleFieldFocus({"name":"accommodates","focus":true})}
               />
-              {focused["accommodates"]&&<Chart
-           options={{}} name="suggestion" series={[{"data":dist["accommodates"]?dist["accommodates"]:null}]} type="area" />}
+              {focused["accommodates"]&&<div style={{height:350,overflow:"scroll",margin:"auto"}}><Chart
+           options={{"dataLabels":{"enabled":false}}}  height={350} name="suggestion" series={[{"data":dist["accommodates"]?dist["accommodates"]:null}]} type="area" /></div>}
           </fieldset>
           <br />
           <fieldset>
-          <label htmlFor="bedrooms">
-            Bedrooms:</label>
+          <legend htmlFor="bedrooms">
+            Bedrooms:</legend>
           <input
               type= "number"
               id="bedrooms"
@@ -272,27 +263,27 @@ export default function Listings(){
               onBlur={(e)=>{handleInputChange(e);handleFieldFocus({"name":"bedrooms","focus":false})}}
               onFocus={()=>handleFieldFocus({"name":"bedrooms","focus":true})}
               />
-              {focused["bedrooms"]&&<Chart
-           options={{}} name="suggestion" series={[{"data":dist["bedrooms"]?dist["bedrooms"]:null}]} type="area" />}
+              {focused["bedrooms"]&&<div style={{height:350,overflow:"scroll",margin:"auto"}}><Chart
+           options={{"dataLabels":{"enabled":false}}}  height={350} name="suggestion" series={[{"data":dist["bedrooms"]?dist["bedrooms"]:null}]} type="area" /></div>}
           </fieldset>
           <br />
           <fieldset>
-          <label htmlFor="Beds">
-            Beds:</label>
+          <legend htmlFor="Beds">
+            Beds:</legend>
           <input
               type= "number"
-              id="Beds"
-              name="Beds"
-              onBlur={(e)=>{handleInputChange(e);handleFieldFocus({"name":"Beds","focus":false})}}
-              onFocus={()=>handleFieldFocus({"name":"Beds","focus":true})}
+              id="beds"
+              name="beds"
+              onBlur={(e)=>{handleInputChange(e);handleFieldFocus({"name":"beds","focus":false})}}
+              onFocus={()=>handleFieldFocus({"name":"beds","focus":true})}
               />
-              {focused["Beds"]&&<Chart
-           options={{}} name="Beds" series={[{"data":dist["Beds"]?dist["Beds"]:null}]} type="area" />}
+              {focused["beds"]&&<div style={{height:350,overflow:"scroll",margin:"auto"}}><Chart
+           options={{"dataLabels":{"enabled":false}}}  height={350} name="beds" series={[{"data":dist["beds"]?dist["beds"]:null}]} type="area" /></div>}
           </fieldset>
           <br />
           <fieldset>
-          <label htmlFor="bathrooms">
-            Bathrooms:</label>
+          <legend htmlFor="bathrooms">
+            Bathrooms:</legend>
           <input
               type= "number"
               id="bathrooms"
@@ -300,13 +291,15 @@ export default function Listings(){
               onBlur={(e)=>{handleInputChange(e);handleFieldFocus({"name":"bathrooms","focus":false})}}
               onFocus={()=>handleFieldFocus({"name":"bathrooms","focus":true})}
               />
-              {focused["bathrooms"]&&<Chart
-           options={{}} name="bathrooms" series={[{"data":dist["bathrooms"]?dist["bathrooms"]:null}]} type="area" />}
+              {focused["bathrooms"]&&<div style={{height:350,overflow:"scroll",margin:"auto"}}><Chart
+           options={{"dataLabels":{"enabled":false}}}  height={350} name="bathrooms" series={[{"data":dist["bathrooms"]?dist["bathrooms"]:null}]} type="area" /></div>}
           </fieldset>
           <br />
           <fieldset>
-          <label htmlFor="amenities">
-           Amenities:</label>
+          <legend htmlFor="amenities">
+           Amenities:</legend>
+           {focused["amenities"]&&<div style={{height:350,overflow:"scroll",margin:"auto"}}><Chart
+           options={{"dataLabels":{"enabled":false}}}  height={350} name="amenities" series={[{"data":dist["amenities"]?dist["amenities"]:null}]} type="bar" /></div>}
           <Select options={amenities_options}
             isMulti
             getOptionValue={(option)=>{return option.label}}
@@ -316,13 +309,11 @@ export default function Listings(){
             onBlur={()=>{handleFieldFocus({"name":"amenities","focus":false})}}
             onFocus={()=>handleFieldFocus({"name":"amenities","focus":true})}
           />
-          {focused["amenities"]&&<Chart
-           options={{}} name="amenities" series={[{"data":dist["amenities"]?dist["amenities"]:null}]} type="bar" />}
           </fieldset>
           <br />
           <fieldset>
-          <label htmlFor="price">
-            Price:</label>
+          <legend htmlFor="price">
+            Price:</legend>
           <input
               type= "number"
               id="price"
@@ -330,13 +321,13 @@ export default function Listings(){
               onBlur={(e)=>{handleInputChange(e);handleFieldFocus({"name":"price","focus":false})}}
               onFocus={()=>handleFieldFocus({"name":"price","focus":true})}
               />
-              {focused["price"]&&<Chart
-           options={{}} name="price" series={[{"data":dist["price"]?dist["price"]:null}]} type="area" />}
+              {focused["price"]&&<div style={{height:350,overflow:"scroll",margin:"auto"}}><Chart
+           options={{"dataLabels":{"enabled":false}}}  height={350} name="price" series={[{"data":dist["price"]?dist["price"]:null}]} type="area" /></div>}
           </fieldset>
           <br />
           <fieldset>
-          <label htmlFor="weekly_price">
-          Weekly price:</label>
+          <legend htmlFor="weekly_price">
+          Weekly price:</legend>
           <input
               type= "number"
               id="weekly_price"
@@ -344,13 +335,13 @@ export default function Listings(){
               onBlur={(e)=>{handleInputChange(e);handleFieldFocus({"name":"weekly_price","focus":false})}}
               onFocus={()=>handleFieldFocus({"name":"weekly_price","focus":true})}
               />
-              {focused["weekly_price"]&&<Chart
-           options={{}} name="weekly_price" series={[{"data":dist["weekly_price"]?dist["weekly_price"]:null}]} type="area" />}
+              {focused["weekly_price"]&&<div style={{height:350,overflow:"scroll",margin:"auto"}}><Chart
+           options={{"dataLabels":{"enabled":false}}}  height={350} name="weekly_price" series={[{"data":dist["weekly_price"]?dist["weekly_price"]:null}]} type="area" /></div>}
           </fieldset>
           <br />
           <fieldset>
-          <label htmlFor="monthly_price">
-           Monthly price:</label>
+          <legend htmlFor="monthly_price">
+           Monthly price:</legend>
           <input
               type= "number"
               id="monthly_price"
@@ -358,13 +349,13 @@ export default function Listings(){
               onBlur={(e)=>{handleInputChange(e);handleFieldFocus({"name":"monthly_price","focus":false})}}
               onFocus={()=>handleFieldFocus({"name":"monthly_price","focus":true})}
               />
-              {focused["monthly_price"]&&<Chart
-           options={{}} name="monthly_price" series={[{"data":dist["monthly_price"]?dist["monthly_price"]:null}]} type="area" />}
+              {focused["monthly_price"]&&<div style={{height:350,overflow:"scroll",margin:"auto"}}><Chart
+           options={{"dataLabels":{"enabled":false}}}  height={350} name="monthly_price" series={[{"data":dist["monthly_price"]?dist["monthly_price"]:null}]} type="area" /></div>}
           </fieldset>
           <br />
           <fieldset>
-          <label htmlFor="cleaning_fee">
-           Cleaning fee:</label>
+          <legend htmlFor="cleaning_fee">
+           Cleaning fee:</legend>
           <input
               type= "number"
               id="cleaning_fee"
@@ -372,13 +363,13 @@ export default function Listings(){
               onBlur={(e)=>{handleInputChange(e);handleFieldFocus({"name":"cleaning_fee","focus":false})}}
               onFocus={()=>handleFieldFocus({"name":"cleaning_fee","focus":true})}
               />
-              {focused["cleaning_fee"]&&<Chart
-           options={{}} name="cleaning_fee" series={[{"data":dist["cleaning_fee"]?dist["cleaning_fee"]:null}]} type="area" />}
+              {focused["cleaning_fee"]&&<div style={{height:350,overflow:"scroll",margin:"auto"}}><Chart
+           options={{"dataLabels":{"enabled":false}}}  height={350} name="cleaning_fee" series={[{"data":dist["cleaning_fee"]?dist["cleaning_fee"]:null}]} type="area" /></div>}
           </fieldset>
           <br />
           <fieldset>
-          <label htmlFor="extra_people">
-           Extra people:</label>
+          <legend htmlFor="extra_people">
+           Extra people:</legend>
           <input
               type= "number"
               id="extra_people"
@@ -386,13 +377,13 @@ export default function Listings(){
               onBlur={(e)=>{handleInputChange(e);handleFieldFocus({"name":"extra_people","focus":false})}}
               onFocus={()=>handleFieldFocus({"name":"extra_people","focus":true})}
               />
-              {focused["extra_people"]&&<Chart
-           options={{}} name="extra_people" series={[{"data":dist["extra_people"]?dist["extra_people"]:null}]} type="area" />}
+              {focused["extra_people"]&&<div style={{height:350,overflow:"scroll",margin:"auto"}}><Chart
+           options={{"dataLabels":{"enabled":false}}}  height={350} name="extra_people" series={[{"data":dist["extra_people"]?dist["extra_people"]:null}]} type="area" /></div>}
           </fieldset>
           <br />
           <fieldset>
-          <label htmlFor="guests_included">
-           Guests included:</label>
+          <legend htmlFor="guests_included">
+           Guests included:</legend>
           <input
               type= "number"
               id="guests_included"
@@ -400,13 +391,15 @@ export default function Listings(){
               onBlur={(e)=>{handleInputChange(e);handleFieldFocus({"name":"guests_included","focus":false})}}
               onFocus={()=>handleFieldFocus({"name":"guests_included","focus":true})}
               />
-              {focused["guests_included"]&&<Chart
-           options={{}} name="guests_included" series={[{"data":dist["guests_included"]?dist["guests_included"]:null}]} type="area" />}
+              {focused["guests_included"]&&<div style={{height:350,overflow:"scroll",margin:"auto"}}><Chart
+           options={{"dataLabels":{"enabled":false}}} height={350} name="guests_included" series={[{"data":dist["guests_included"]?dist["guests_included"]:null}]} type="area" /></div>}
           </fieldset>
           <br />
           <fieldset>
-          <label htmlFor="country">
-           Country:</label>
+          <legend htmlFor="country">
+           Country:</legend>
+           {focused["country"]&&<div style={{height:350,overflow:"scroll",margin:"auto"}}><Chart
+           options={{"dataLabels":{"enabled":false}}}  height={350} name="country" series={[{"data":dist["country"]?dist["country"]:null}]} type="area" /></div>}
           <Select
             options={country_options}
             id="country"
@@ -414,13 +407,11 @@ export default function Listings(){
             onBlur={()=>{handleFieldFocus({"name":"country","focus":false})}}
             onFocus={()=>handleFieldFocus({"name":"country","focus":true})}
           />
-          {focused["country"]&&<Chart
-           options={{}} name="country" series={[{"data":dist["country"]?dist["country"]:null}]} type="area" />}
           </fieldset>
           <br />
           <fieldset>
-          <label htmlFor="government_area">
-            Goverment Area:</label>
+          <legend htmlFor="government_area">
+            Goverment Area:</legend>
           <input
               type="text"
               id="government_area"
@@ -428,13 +419,13 @@ export default function Listings(){
               onBlur={(e)=>{handleInputChange(e);handleFieldFocus({"name":"government_area","focus":false})}}
               onFocus={()=>handleFieldFocus({"name":"government_area","focus":true})}
               />
-              {focused["government_area"]&&<Chart
-           options={{}} name="government_area" series={[{"data":dist["government_area"]?dist["government_area"]:null}]} type="area" />}
+              {focused["government_area"]&&<div style={{height:350,overflow:"scroll",margin:"auto"}}><Chart
+           options={{"dataLabels":{"enabled":false}}} height={350} name="government_area" series={[{"data":dist["government_area"]?dist["government_area"]:null}]} type="area" /></div>}
           </fieldset>
           <br />
           <fieldset>
-          <label htmlFor="street">
-            Street:</label>
+          <legend htmlFor="street">
+            Street:</legend>
           <input
               type="text"
               id="street"
@@ -442,8 +433,8 @@ export default function Listings(){
               onBlur={(e)=>{handleInputChange(e);handleFieldFocus({"name":"street","focus":false})}}
               onFocus={()=>handleFieldFocus({"name":"street","focus":true})}
               />
-              {focused["street"]&&<Chart
-           options={{}} name="street" series={[{"data":dist["street"]?dist["street"]:null}]} type="area" />}
+              {focused["street"]&&<div style={{height:350,overflow:"scroll",margin:"auto"}}><Chart
+           options={{"dataLabels":{"enabled":false}}}  height={350} name="street" series={[{"data":dist["street"]?dist["street"]:null}]} type="area" /></div>}
           </fieldset>
           <br />
           <input type="submit" />

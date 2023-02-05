@@ -1,3 +1,5 @@
 /.vscode
 /__pycache__
 /venv
+/databade/__pycache__
+/formLogic/__pycache__

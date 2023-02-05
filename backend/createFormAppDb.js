@@ -237,7 +237,7 @@ var airbnb_listings = {
             field_name:"cancellation_policy",
             field_type:"string_set",
             set_values:[
-                "moderate","flexable","strict_14_with_grace_period",
+                "moderate","flexible","strict_14_with_grace_period",
                 "super_strict_60","super_strict_30"
             ]
         },
@@ -279,6 +279,14 @@ var airbnb_listings = {
         },
         {
             field_name:"price",
+            field_type:"decimal128"
+        },
+        {
+            field_name:"weekly_price",
+            field_type:"decimal128"
+        },
+        {
+            field_name:"monthly_price",
             field_type:"decimal128"
         },
         {

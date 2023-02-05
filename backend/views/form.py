@@ -9,8 +9,11 @@ form = Blueprint("form", __name__)
 @form.route('/')
 def index():
     print(request.headers)
-    return "Hi!! from server"
+    # sanity check for load balancer
+    return "Hi!! from server is up"
 
+
+# endpoint for client form schema registration
 @form.route("/api/<company_name>", methods=["POST"])
 def create_user(company_name):
     # validate company is registered for service here
@@ -25,7 +28,7 @@ def create_user(company_name):
         # log error and return error to client
         return make_response(e, 500)
 
-
+# endpoint to get form schema from apps server
 @form.route("/api/<company_name>/<form_name>", methods=["GET"])
 def get_form_schema(company_name,form_name):
     form_schema = mongo.db.forms.find_one({"company_name":company_name,"form_name":form_name},{"_id":0})
@@ -53,11 +56,3 @@ def get_field_stats(company_name,form_name):
 
 
 
-@form.route("/api/user/<string:user_id>", methods=["DELETE"])
-def delete_user(user_id):
-
-    result = mongo.db.users.delete_one({"_id": ObjectId(user_id)})
-    if result.deleted_count == 1:
-        return {}, 204
-    else:
-        return "No user found with this ID", 404

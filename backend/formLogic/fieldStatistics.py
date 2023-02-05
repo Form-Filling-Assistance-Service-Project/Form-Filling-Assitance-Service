@@ -3,7 +3,7 @@ from collections import Counter
 import bson.decimal128 as decimal128
 from multi_rake import Rake
 
-
+# this method gets the fields values distribution based on the type
 def get_dist(collection, type):
     match type:
         case "string_set" | "boolean":
@@ -23,11 +23,6 @@ def get_dist(collection, type):
             return cont_field(collection)
         case "decimal128":
             collection = [float(val.to_decimal()) for val in collection]
-            # collection = np.array(collection,dtype=np.double)
-            # res =cont_field(collection)
-            # res["bin_edges"] = [str(decimal128.Decimal128(str(b))) for b in res["bin_edges"]]
-            # res["hist"] = [str(decimal128.Decimal128(str(b))) for b in res["hist"]]
-            # return res
             return desc_field(collection)
 
 
