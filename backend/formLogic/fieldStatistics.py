@@ -16,18 +16,19 @@ def get_dist(collection, type):
         case "string":
             return word_freq(collection)
         case "int":
-            return cont_field(collection)
+            return desc_field(collection)
         case "int_list":
-            return
+            return desc_field(collection)
         case "float":
             return cont_field(collection)
         case "decimal128":
-            collection = [val.to_decimal() for val in collection]
-            collection = np.array(collection,dtype=np.double)
-            res =cont_field(collection)
-            res["bin_edges"] = [str(decimal128.Decimal128(str(b))) for b in res["bin_edges"]]
-            res["hist"] = [str(decimal128.Decimal128(str(b))) for b in res["hist"]]
-            return res
+            collection = [float(val.to_decimal()) for val in collection]
+            # collection = np.array(collection,dtype=np.double)
+            # res =cont_field(collection)
+            # res["bin_edges"] = [str(decimal128.Decimal128(str(b))) for b in res["bin_edges"]]
+            # res["hist"] = [str(decimal128.Decimal128(str(b))) for b in res["hist"]]
+            # return res
+            return desc_field(collection)
 
 
 

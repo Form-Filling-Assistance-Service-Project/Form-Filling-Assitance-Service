@@ -25,7 +25,7 @@ app.register_blueprint(form)
 register_env_variables()
 
 if __name__ =='__main__':
-     app.run(host="localhost",port="5000",debug=True)
+     app.run(host="localhost",port="8081")
 #ssl_context='adhoc',
-# node1 host="192.168.1.3",port="8080"
-# node2 host="192.168.1.4",port="8080"
+# node1 host="localhost",port="8080"
+# node2 host="localhost",port="8081"
