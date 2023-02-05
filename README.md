@@ -14,21 +14,28 @@ To demonstrate the use of the service, we created a basic UI for filling out an 
 
 
 Distrubution elements:
+
 1.Thread pool 
+
 2.Nginx load balancer 
+
 3.Using MongoDB - non relation data base
 
 
 
-#Getting Started
+## Getting Started
+
 
 Firstly, you must have the following installed:
+
 Python 3
+
 node.js
+
 MongoDB
 
 
-## Steps To run project:
+### Steps To run project:
 
 1.Clone repo to local directory 
 
@@ -64,11 +71,17 @@ import the listings.json file
 
 ### Backend-
 
+
 4.Open shell from backend directory 
+
 a.python -m venv ./venv
+
 b.source ./venv/bin/activate
+
 c.pip install -r ./backend/requirements.txt
+
 d.flask run (for localhost port 8080 and localhost port 8081)
+
 h.Enter shell from nginx directory and run: nginx start 
 
 ### Frontend-
